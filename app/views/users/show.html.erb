@@ -1,0 +1,23 @@
+<h1>Welcome, <%= @user.username %>!</h1>
+
+<h2>Your Achievements</h2>
+<% @achievements.each do |achievement| %>
+  <p><%= achievement.name %> - <%= achievement.description %></p>
+  <%= link_to 'Edit', edit_user_achievement_path(@user, achievement) %> |
+  <%= link_to 'Delete', user_achievement_path(@user, achievement), method: :delete %>
+<% end %>
+<%= link_to 'Add Achievement', new_user_achievement_path(@user) %>
+
+<h2>Your Friends</h2>
+<% @friends.each do |friend| %>
+  <p><%= friend.username %></p>
+  <%= link_to 'Remove Friend', remove_friend_path(friend), method: :delete %>
+<% end %>
+
+<h2>Support Groups</h2>
+<% @support_groups.each do |group| %>
+  <p><%= group.name %></p>
+  <%= link_to 'Delete Group', user_support_group_path(@user, group), method: :delete %>
+<% end %>
+<%= link_to 'Create Support Group', new_user_support_group_path(@user) %>
+

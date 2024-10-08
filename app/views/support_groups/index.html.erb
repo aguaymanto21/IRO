@@ -1,0 +1,5 @@
+<h2>Your Support Groups</h2>
+<% @support_groups.each do |group| %>
+  <p><%= group.name %></p>
+  <%= link_to 'Delete Group', user_support_group_path(current_user, group), method: :delete %>
+<% end %>

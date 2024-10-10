@@ -1,0 +1,9 @@
+<h1>Your Profiles</h1>
+
+<%= link_to 'New Profile', new_profile_path %>
+
+<ul>
+  <% @profiles.each do |profile| %>
+    <li><%= link_to profile.name, profile_path(profile) %></li>
+  <% end %>
+</ul>

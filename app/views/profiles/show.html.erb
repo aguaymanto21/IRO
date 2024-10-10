@@ -1,0 +1,5 @@
+<h1><%= @profile.name %></h1>
+<p><%= @profile.bio %></p>
+<%= image_tag @profile.avatar if @profile.avatar.present? %>
+<%= link_to 'Edit', edit_profile_path(@profile) %>
+<%= link_to 'Back to Profiles', profiles_path %>

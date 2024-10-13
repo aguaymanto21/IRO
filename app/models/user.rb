@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :achievements
   has_many :friendships
-  has_many :profiles
+  has_one :profile, dependent: :destroy
 
   has_many :friends, through: :friendships, source: :friend
   has_many :profiles, dependent: :destroy

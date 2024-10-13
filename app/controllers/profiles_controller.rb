@@ -3,22 +3,34 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
   def index
-    @profiles = current_user.profiles  # Fetch profiles for the logged-in user
+    if current_user.profile
+      redirect_to profile_path(current_user.profile)
+    else
+      redirect_to new_profile_path
+    end
   end
 
   def show
   end
 
   def new
-    @profile = current_user.profiles.build
+    if current_user.profile
+      redirect_to profile_path(current_user.profile), alert: 'You already have a profile.'
+    else
+      @profile = Profile.new
+    end
   end
 
   def create
-    @profile = current_user.profiles.build(profile_params)
-    if @profile.save
-      redirect_to @profile, notice: 'Profile was successfully created.'
+    if current_user.profile
+      redirect_to profile_path(current_user.profile), alert: 'You already have a profile.'
     else
-      render :new
+      @profile = current_user.build_profile(profile_params)
+      if @profile.save
+        redirect_to @profile, notice: 'Profile was successfully created.'
+      else
+        render :new
+      end
     end
   end
 
@@ -35,16 +47,16 @@ class ProfilesController < ApplicationController
 
   def destroy
     @profile.destroy
-    redirect_to profiles_url, notice: 'Profile was successfully deleted.'
+    redirect_to new_profile_path, notice: 'Profile was successfully deleted.'
   end
 
   private
 
   def set_profile
-    @profile = current_user.profiles.find(params[:id])  # Ensure the profile belongs to the current user
+    @profile = current_user.profile
   end
 
   def profile_params
-    params.require(:profile).permit(:name, :bio, :avatar)
+    params.require(:profile).permit(:name, :bio, :avatar, mood: [])
   end
 end

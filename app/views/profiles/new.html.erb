@@ -1,20 +1,41 @@
-<%= form_with model: @profile, local: true do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<%# <%= form_with model: @profile, local: true do |form| %>
+  <%# <div> %>
+    <%# <%= form.label :name %>
+    <%# <%= form.text_field :name %>
+  <%# </div> %>
+
+  <%# <div> %>
+    <%# <%= form.label :bio %>
+    <%# <%= form.text_area :bio %>
+  <%# </div> %>
+
+  <%# <div> %>
+    <%# <%= form.label :avatar %>
+    <%# <%= form.file_field :avatar %>
+  <%# </div> %>
+
+  <%# <div> %>
+    <%# <%= form.submit %>
+  <%# </div> %>
+<%# <% end %>
+
+<h1>New Profile</h1>
+
+<%= form_for(@profile) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :bio %>
-    <%= form.text_area :bio %>
+  <div class="form-group">
+    <%= f.label :bio %>
+    <%= f.text_area :bio, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :avatar %>
-    <%= form.file_field :avatar %>
+  <div class="form-group">
+    <%= f.label :avatar %>
+    <%= f.file_field :avatar, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= f.submit "Create Profile", class: "btn btn-primary" %>
 <% end %>

@@ -1,0 +1,52 @@
+.btn .btn-primary{
+ background-color: #4E31AA;
+ border-color: #4E31AA;
+ color: #F7F7F8;
+}
+
+
+.profile-pic{
+  width: 10px;
+  height: 10px;
+
+}
+.tag-selector {
+  display: none;
+}
+
+.tag-selector-label {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.tag-selector:checked + .tag-selector-label {
+  background-color: #4E31AA;
+  color: #fff;
+}
+
+.btn-custom {
+  background-color: #3795BD;
+  color: white;
+  border: #4E31AA;
+}
+.btn-custom:hover {
+  background-color: #3795BD;
+  color: white;
+
+}
+
+.bg-primary {
+  background-color: #4E31AA;
+  color: #fff;
+
+}

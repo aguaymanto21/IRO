@@ -1,0 +1,45 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 bg-white p-4 shadow rounded">
+      <h1>Edit Profile</h1>
+
+      <%= form_for(@profile) do |f| %>
+        <div class="form-group mb-3">
+          <%= f.label :name, class: "form-label" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "Enter your name" %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :bio, class: "form-label" %>
+          <%= f.text_area :bio, class: "form-control", rows: 5, placeholder: "Write a brief bio" %>
+        </div>
+
+        <div class="form-group mb-4">
+          <%= f.label :avatar, class: "form-label" %>
+          <%= f.file_field :avatar, class: "form-control" %>
+          <% if @profile.avatar.present? %>
+            <small class="form-text text-muted">Current avatar:</small>
+            <%= image_tag @profile.avatar, class: "img-thumbnail mt-2", size: "150x150" %>
+          <% end %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :mood, "Today's Mood", class: "form-label" %>
+          <div class="checkbox-group d-flex flex-wrap">
+            <% ['Happy', 'Excited', 'Calm', 'Stressed', 'Overwhelmed', 'Imposter Syndrome', 'Anxious'].each do |mood| %>
+              <div class="tag-item me-2 mb-2">
+                <%= check_box_tag 'profile[mood][]', mood, @profile.mood.include?(mood), class: 'tag-selector', id: "mood_#{mood.parameterize}" %>
+                <%= label_tag "mood_#{mood.parameterize}", mood, class: 'tag-selector-label' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+
+        <div class="form-group mb-3">
+          <%= f.submit "Save Changes", class: "btn btn-custom" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,58 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
+  background-color: #4E31AA;
+}
+
+.nav-link {
+  color: #F7F7F8;
 }
 
 .navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
+  flex-grow: 0; /* Prevent it from expanding beyond its content */
 }
 
 .navbar-lewagon .navbar-brand img {
   width: 40px;
+}
+
+/* Prevent items from wrapping under any conditions */
+.navbar-nav {
+  flex-direction: row;
+  flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure responsive behavior for smaller screens */
+@media (max-width: 767px) {
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #4E31AA;
+  }
+
+  .avatar {
+    max-height: 30px;
+  }
+
+
+}
+
+@media (max-width: 576px) {
+  /* Maintain horizontal layout for Home and Messages buttons */
+  .navbar-brand.img{
+    display: none; /* Hide the logo */
+  }
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: nowrap; /* Ensure no wrapping of nav items */
+    justify-content: flex-start;
+    background-color: #4E31AA;
+  }
+
 }

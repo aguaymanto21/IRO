@@ -1,0 +1,13 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 bg-white p-4 shadow rounded">
+      <% if current_user.profile %>
+        <h1>Your Profile</h1>
+        <%= link_to 'View Profile', profile_path(current_user.profile) %>
+      <% else %>
+        <h1>You don't have a profile yet</h1>
+        <%= link_to 'Create Profile', new_profile_path %>
+      <% end %>
+    </div>
+  </div>
+</div>

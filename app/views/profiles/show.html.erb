@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 bg-white p-4 shadow rounded text-center position-relative">
+
+      <div class="d-flex justify-content-center align-items-center mb-3">
+       <h1 class="mb-0 me-4"><%= @profile.name %></h1>
+        <%= link_to edit_profile_path(@profile), class: 'text-decoration-none' do %>
+          <i class="fas fa-pencil-alt"></i>
+        <% end %>
+      </div>
+
+      <p class="lead mb-4"><%= @profile.bio %></p>
+
+      <% if @profile.avatar.attached? %>
+        <div class="mb-4">
+          <%= image_tag @profile.avatar, size: "150x150", class: "rounded-circle shadow-sm img-thumbnail" %>
+        </div>
+      <% else %>
+        <div class="mb-4">
+          <%= image_tag "default-avatar.png", size: "150x150", class: "rounded-circle shadow-sm img-thumbnail" %>
+        </div>
+      <% end %>
+
+      <% if @profile.mood.present? %>
+        <h3 class="mt-4">Today's Mood:</h3>
+        <div class="d-flex flex-wrap justify-content-center">
+          <% @profile.mood.each do |mood| %>
+            <span class="badge bg-primary me-2 mb-2"><%= mood %></span>
+          <% end %>
+        </div>
+      <% else %>
+        <p>No mood selected.</p>
+      <% end %>
+
+      <h3 class="mt-4">My Achievements:</h3>
+      <h3 class="mt-4">My Friends:</h3>
+
+
+
+    </div>
+  </div>
+</div>

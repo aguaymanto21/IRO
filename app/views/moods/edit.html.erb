@@ -1,0 +1,16 @@
+<%= form_with(model: [@profile, @mood], local: true) do |f| %>
+  <div class="form-group mb-3">
+    <%= f.label :mood, "Update Today's Feelings", class: "form-label" %>
+    <div class="checkbox-group d-flex flex-wrap">
+      <% ['Happy', 'Excited', 'Calm', 'Stressed', 'Overwhelmed', 'Imposter Syndrome', 'Anxious'].each do |mood_option| %>
+        <div class="tag-item me-2 mb-2">
+          <%= f.radio_button :mood, mood_option, id: "mood_#{mood_option.parameterize}", class: 'tag-selector', checked: (@mood.mood == mood_option) %>
+          <%= label_tag "mood_#{mood_option.parameterize}", mood_option, class: 'tag-selector-label' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-3">
+    <%= f.submit "Update Mood", class: "btn btn-primary" %>
+  </div>
+<% end %>

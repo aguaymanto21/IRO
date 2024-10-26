@@ -4,6 +4,11 @@
  color: #F7F7F8;
 }
 
+.profile-name{
+  color:#3795BD;
+  font-weight: bold;
+}
+
 
 .profile-pic{
   width: 10px;
@@ -48,4 +53,27 @@
 .badge.bg-primary {
   background-color: #4E31AA !important;
   color: #fff !important;
+}
+.sidebar {
+  height: 100vh;
+  position: fixed;
+}
+
+
+
+.nav-link:hover {
+  color: #e5cbf0;
+}
+
+.profile-name {
+  color: #3795BD;
+}
+
+.nav-link1 {
+  background-color: #3795BD  !important;;
+  color: white  !important;;
+  border-radius: 5px  !important;;
+}
+.nav-link1:hover {
+  color: #e5cbf0;
 }

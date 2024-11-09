@@ -30,10 +30,16 @@ class MoodsController < ApplicationController
     end
   end
 
+  def show
+    @profile = Profile.find(params[:profile_id])
+    @mood = @profile.moods.find(params[:id])
+  end
+
+
   # DELETE /profiles/:profile_id/moods/:id
   def destroy
     @mood.destroy
-    redirect_to profile_path(@profile), notice: 'Mood was successfully deleted.'
+    redirect_to profile_path(@profile), notice: "Mood was successfully deleted."
   end
 
   private

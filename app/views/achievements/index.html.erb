@@ -1,0 +1,25 @@
+<div class="achievements">
+  <h1 class="display-5">Your Achievements</h1>
+  <a href="<%= new_profile_achievement_path(@profile) %>" class="btn btn-add btn-primary shadow-sm">+ Add Achievement</a>
+
+  <% @achievements.each do |achievement| %>
+    <div class="achievement-card">
+      <div class="achievement-image">
+        <% if achievement.image.attached? %>
+          <%= image_tag achievement.image %>
+        <% else %>
+          <img src="default-image.jpg" alt="No image available">
+        <% end %>
+      </div>
+      <div class="achievement-info">
+        <h2><%= achievement.name %></h2>
+        <p class="date"><%= achievement.date.strftime('%B %d, %Y') %></p>
+        <p class="description"><%= achievement.description %></p>
+        <div class="actions">
+          <%= link_to 'Edit', edit_profile_achievement_path(@profile, achievement), class: 'btn btn-edit' %>
+          <%= link_to 'Delete', profile_achievement_path(@profile, achievement), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-delete' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

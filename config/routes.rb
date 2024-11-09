@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :profiles do
     resources :achievements
     resources :support_groups, only: [:index, :new, :create, :destroy]
-    resources :moods, only: [:new, :create, :edit, :update, :destroy]
+    resources :moods, only: [:new, :create, :edit, :update, :show, :destroy]
   end
 
   resources :friendships, only: [:index, :create, :destroy]

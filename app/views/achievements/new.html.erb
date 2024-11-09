@@ -1,2 +1,36 @@
-<h1>Achievements#new</h1>
-<p>Find me in app/views/achievements/new.html.erb</p>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-md-8 col-lg-6 p-4">
+    <div class="bg-white shadow-lg p-5 rounded-lg">
+      <!-- Profile Section -->
+      <div class="text-center mb-4">
+        <h2 class="text-primary">Add Achievement</h2>
+        <p class="text-muted">Fill out the form below to add a new achievement.</p>
+      </div>
+
+      <%= form_with model: [@profile, @achievement], local: true do |f| %>
+        <div class="form-group mb-3">
+          <%= f.label :name, 'Achievement Name', class: 'font-weight-bold text-secondary' %>
+          <%= f.text_field :name, class: 'form-control form-control-lg border-0 shadow-sm' %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :description, 'Description', class: 'font-weight-bold text-secondary' %>
+          <%= f.text_area :description, class: 'form-control form-control-lg border-0 shadow-sm' %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :date, 'Achievement Date', class: 'font-weight-bold text-secondary' %>
+          <%= f.date_select :date, class: 'form-control form-control-lg border-0 shadow-sm' %>
+        </div>
+
+        <div class="form-group mb-4">
+          <%= f.label :image, 'Upload an Image', class: 'font-weight-bold text-secondary' %>
+          <%= f.file_field :image, class: 'form-control form-control-lg border-0 shadow-sm' %>
+        </div>
+
+        <%= f.submit 'Save Achievement', class: 'btn btn-lg btn-primary btn-block shadow-sm' %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

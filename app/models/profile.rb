@@ -6,4 +6,5 @@ class Profile < ApplicationRecord
   validates :bio, presence: true
 
   has_many :moods, dependent: :destroy
+  has_many :achievements, dependent: :destroy
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :profiles do
-    resources :achievements
+    resources :achievements, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :support_groups, only: [:index, :new, :create, :destroy]
     resources :moods, only: [:new, :create, :edit, :update, :show, :destroy]
   end

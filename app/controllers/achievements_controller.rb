@@ -22,24 +22,27 @@ class AchievementsController < ApplicationController
     end
   end
 
+
+
   def edit
     @achievement = @profile.achievements.find(params[:id])
   end
 
+
   def update
-    @achievement = @profile.achievements.find(params[:id])
     if @achievement.update(achievement_params)
-      redirect_to profile_achievement_path(@profile, @achievement), notice: 'Achievement was successfully updated.'
+      redirect_to profile_path(@profile), notice: 'Achievement was successfully updated.'
     else
       render :edit
     end
   end
 
+
   def destroy
-    @achievement = @profile.achievements.find(params[:id])
     @achievement.destroy
-    redirect_to profile_achievements_path(@profile), notice: 'Achievement was successfully deleted.'
+    redirect_to profile_path(@profile), notice: "Achievement was successfully deleted."
   end
+
 
   private
 

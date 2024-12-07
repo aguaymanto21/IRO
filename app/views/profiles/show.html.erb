@@ -1,42 +1,212 @@
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 bg-white p-4 shadow rounded text-center position-relative">
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar (Dashboard) -->
+    <div class="col-md-2 bg-light p-4">
+      <h4 class="text-center">Dashboard</h4>
+      <nav>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <%# <%= link_to 'Dashboard', dashboard_path, class: 'nav-link' %> %>
+          </li>
+          <li class="nav-item">
+            <%# <%= link_to 'Courses', courses_path, class: 'nav-link' %> %>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
-      <div class="d-flex justify-content-center align-items-center mb-3">
-       <h1 class="mb-0 me-4"><%= @profile.name %></h1>
-        <%= link_to edit_profile_path(@profile), class: 'text-decoration-none' do %>
-          <i class="fas fa-pencil-alt"></i>
+    <!-- Main Content (Profile) - Largest Column -->
+    <div class="col-md-8 p-4">
+      <div class="bg-white shadow-sm p-4 rounded">
+        <!-- Profile Section -->
+        <div class="d-flex align-items-center mb-4">
+          <div class="me-4">
+            <% if @profile.avatar.attached? %>
+              <%= image_tag @profile.avatar, size: "100x100", class: "rounded-circle shadow-sm img-thumbnail" %>
+            <% else %>
+              <%= image_tag "default-avatar.png", size: "100x100", class: "rounded-circle shadow-sm img-thumbnail" %>
+            <% end %>
+          </div>
+
+          <div>
+            <div class="d-flex align-items-center mb-2">
+              <h2 class="mb-0">Welcome, <span class="profile-name"><%= @profile.name %></span></h2>
+              <%= link_to edit_profile_path(@profile), class: 'text-decoration-none ms-3' do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+            </div>
+            <p class="lead mb-0"><%= @profile.bio %></p>
+          </div>
+        </div>
+
+        <!-- Mood Section -->
+        <div class="container my-5">
+          <div class="row justify-content-center">
+            <div class="col-md-8 bg-white p-4 shadow rounded text-center position-relative">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mt-4">Today I am feeling</h3>
+              </div>
+
+              <!-- Display today's mood if it has been set, otherwise show mood selection form -->
+              <% if @latest_mood.present? && @latest_mood.created_at.to_date == Date.today %>
+                <!-- Show today's mood description and the "Add New Feeling" button -->
+                <p class="text-muted mt-3"><%= @latest_mood.description %></p>
+                 <div class="mt-4">
+                  <%= link_to new_profile_mood_path(@profile), id: "add-new-feeling", class: 'd-block mt-2 text-decoration-none' do %>
+                    <i class="fas fa-plus-circle fa-2x" style="color: #007bff;"></i> Add New Feeling
+                  <% end %>
+                </div>
+              <% else %>
+                <!-- Display the mood selection form if no mood was set today -->
+                <%= form_with(model: [@profile, @mood], url: profile_moods_path(@profile), local: true) do |f| %>
+                  <div class="form-group mb-3" id="mood-selection">
+                    <%= f.label :mood, "Select Today's Feeling", class: "form-label" %>
+                    <div class="checkbox-group d-flex flex-wrap justify-content-center mt-2">
+                      <% ['Happy', 'Excited', 'Calm', 'Stressed', 'Overwhelmed', 'Imposter Syndrome', 'Anxious'].each do |mood_option| %>
+                        <div class="tag-item me-2 mb-2">
+                          <%= f.radio_button :mood, mood_option, id: "mood_#{mood_option.parameterize}", class: 'tag-selector' %>
+                          <%= label_tag "mood_#{mood_option.parameterize}", mood_option, class: 'tag-selector-label' %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <%= f.label :description, "Describe Your Feeling", class: "form-label" %>
+                    <%= f.text_area :description, rows: 3, class: "form-control" %>
+                  </div>
+
+                  <div class="mt-3">
+                    <%= f.submit "Save Mood", class: "btn btn-primary" %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bitacora Section for Past Moods -->
+       <h1 class="mt-4 display-5">Mood Bitacora:</h1>
+        <% if @past_moods.present? %>
+          <ul class="list-group">
+            <% @past_moods.each do |past_mood| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <!-- Link to view more details about the mood -->
+                  <%= link_to profile_mood_path(@profile, past_mood), class: "text-decoration-none text-dark" do %>
+                    <span><%= past_mood.created_at.strftime("%B %d, %Y") %> - <%= past_mood.mood %></span>
+                    <p class="mb-0 text-muted"><%= past_mood.description %></p>
+                  <% end %>
+                </div>
+
+                <!-- Action Icons for Edit and Delete -->
+                <div class="d-flex align-items-center">
+                  <!-- Edit Icon -->
+                  <%= link_to edit_profile_mood_path(@profile, past_mood), class: "text-decoration-none me-3" do %>
+                    <i class="fas fa-edit fa-lg" style="color: #007bff;"></i>
+                  <% end %>
+
+                  <!-- Delete Icon -->
+                <%= form_with url: profile_mood_path(@profile, past_mood), method: :delete, local: true do %>
+                  <button type="submit" class="btn btn-link text-decoration-none" data-confirm="Are you sure you want to delete this mood?">
+                    <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                  </button>
+                <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No past moods recorded.</p>
         <% end %>
+
+       <!-- Achievements Section -->
+        <div class="achievements-section">
+            <div class="achievements-header d-flex justify-content-between align-items-center mt-4 mb-3">
+              <h1 class="display-5">Your Achievements</h1>
+              <a href="<%= new_profile_achievement_path(@profile) %>" class="btn btn-add btn-primary shadow-sm">+ Add Achievement</a>
+            </div>
+
+            <% if @profile.achievements.any? %>
+              <div class="recent-achievements">
+                <% @profile.achievements.order(created_at: :desc).limit(5).each do |achievement| %>
+                  <div class="achievement-card d-flex align-items-center mb-3">
+                    <!-- Display Achievement Image -->
+                    <div class="achievement-image me-3">
+                      <% if achievement.image.attached? %>
+                        <%= image_tag achievement.image, size: "80x80", class: "rounded img-thumbnail" %>
+                      <% else %>
+                        <img src="default-image.jpg" alt="No image available" class="rounded img-thumbnail" style="width: 80px; height: 80px;">
+                      <% end %>
+                    </div>
+
+                    <!-- Display Achievement Details -->
+                    <div class="achievement-info">
+                      <h4 class="mb-1"><%= achievement.name %></h4>
+                      <p class="date mb-1"><%= achievement.date.strftime('%B %d, %Y') %></p>
+                      <p class="description mb-0"><%= truncate(achievement.description, length: 100) %></p>
+
+                       <!-- Action Icons for Edit and Delete -->
+                      <div class="d-flex align-items-center">
+                        <!-- Edit Icon -->
+                        <%= link_to edit_profile_achievement_path(@profile, achievement), class: "text-decoration-none me-3" do %>
+                          <i class="fas fa-edit fa-lg" style="color: #007bff;"></i>
+                        <% end %>
+
+                        <!-- Delete Icon -->
+                        <%= form_with url: profile_achievement_path(@profile, achievement), method: :delete, local: true do %>
+                          <button type="submit" class="btn btn-link text-decoration-none" data-confirm="Are you sure you want to delete this achievement?">
+                            <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                          </button>
+                        <% end %>
+                      </div>
+
+
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="no-achievements">You haven't added any achievements yet.</p>
+            <% end %>
+        </div>
       </div>
+    </div>
 
-      <p class="lead mb-4"><%= @profile.bio %></p>
-
-      <% if @profile.avatar.attached? %>
-        <div class="mb-4">
-          <%= image_tag @profile.avatar, size: "150x150", class: "rounded-circle shadow-sm img-thumbnail" %>
-        </div>
-      <% else %>
-        <div class="mb-4">
-          <%= image_tag "default-avatar.png", size: "150x150", class: "rounded-circle shadow-sm img-thumbnail" %>
-        </div>
-      <% end %>
-
-      <% if @profile.mood.present? %>
-        <h3 class="mt-4">Today's Mood:</h3>
-        <div class="d-flex flex-wrap justify-content-center">
-          <% @profile.mood.each do |mood| %>
-            <span class="badge bg-primary me-2 mb-2"><%= mood %></span>
-          <% end %>
-        </div>
-      <% else %>
-        <p>No mood selected.</p>
-      <% end %>
-
-      <h3 class="mt-4">My Achievements:</h3>
-      <h3 class="mt-4">My Friends:</h3>
-
-
-
+    <!-- Right Sidebar (Extra Info, Activity Feed, etc.) -->
+    <div class="col-md-2 bg-light p-4">
+      <h4 class="text-center">Activities</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <%# <%= link_to 'Recent Activity', activity_path, class: 'nav-link' %> %>
+        </li>
+        <li class="nav-item">
+          <%# <%= link_to 'Forums', forums_path, class: 'nav-link' %> %>
+        </li>
+      </ul>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const addNewFeelingLink = document.getElementById("add-new-feeling");
+      const moodSelection = document.getElementById("mood-selection");
+
+      if (addNewFeelingLink && moodSelection) {
+        addNewFeelingLink.addEventListener("click", function(event) {
+          if (moodSelection.style.display === "none" || moodSelection.style.display === "") {
+            event.preventDefault();
+            moodSelection.style.display = "block"; // Show mood selection form
+            addNewFeelingLink.style.display = "none"; // Hide the "Add New Feeling" button
+          }
+          // If moodSelection is already visible, let the link redirect as usual
+        });
+      }
+
+      // Initially hide the mood selection if today's mood has already been set
+      if (moodSelection && <%= @latest_mood.present? && @latest_mood.created_at.to_date == Date.today %>) {
+        moodSelection.style.display = "none";
+      }
+    });
+  </script>
 </div>

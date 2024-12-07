@@ -1,0 +1,41 @@
+<div class="achievements">
+  <h1 class="display-5">Your Achievements</h1>
+  <a href="<%= new_profile_achievement_path(@profile) %>" class="btn btn-add btn-primary shadow-sm">+ Add Achievement</a>
+
+  <% @achievements.each do |achievement| %>
+    <div class="achievement-card">
+      <div class="achievement-image">
+        <% if achievement.image.attached? %>
+          <%= image_tag achievement.image %>
+        <% else %>
+          <img src="default-image.jpg" alt="No image available">
+        <% end %>
+      </div>
+      <div class="achievement-info">
+        <h2><%= achievement.name %></h2>
+        <p class="date"><%= achievement.date.strftime('%B %d, %Y') %></p>
+        <p class="description"><%= achievement.description %></p>
+
+        <!-- Action Icons for Edit and Delete -->
+        <div class="d-flex align-items-center">
+          <!-- Edit Icon -->
+          <%= link_to edit_profile_achievement_path(@profile, achievement), class: "text-decoration-none me-3" do %>
+            <i class="fas fa-edit fa-lg" style="color: #007bff;"></i>
+          <% end %>
+
+          <!-- Delete Icon -->
+          <%= form_with url: profile_achievement_path(@profile, achievement), method: :delete, local: true do %>
+            <button type="submit" class="btn btn-link text-decoration-none" data-confirm="Are you sure you want to delete this achievement?">
+              <i class="fas fa-trash-alt fa-lg text-danger"></i>
+            </button>
+          <% end %>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,2 +1,33 @@
-<h1>Achievements#edit</h1>
-<p>Find me in app/views/achievements/edit.html.erb</p>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-md-8 col-lg-6 p-4">
+    <div class="bg-white shadow-lg p-5 rounded-lg">
+      <!-- Profile Section -->
+      <h1><%= @achievement.new_record? ? 'Add New Achievement' : 'Edit Achievement' %></h1>
+
+      <%= form_with model: [@profile, @achievement], local: true do |f| %>
+        <div class="form-group">
+          <%= f.label :name, 'Achievement Name' %>
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description, 'Description' %>
+          <%= f.text_area :description, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :date, 'Date' %>
+          <%= f.date_field :date, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :image, 'Upload Image' %>
+          <%= f.file_field :image, class: 'form-control' %>
+        </div>
+
+        <%= f.submit 'Save Achievement', class: 'btn btn-primary' %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

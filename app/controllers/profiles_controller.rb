@@ -11,7 +11,14 @@ class ProfilesController < ApplicationController
   end
 
   def show
+    @profile = Profile.find(params[:id])
+    @past_moods = @profile.moods.order(created_at: :desc).limit(10) # Adjust limit as needed
+    @mood = @profile.moods.build
+    @latest_mood = @profile.moods.order(created_at: :desc).first # Get the most recent mood
+    @past_moods = @profile.moods.order(created_at: :desc) # Fetch past moods in descending order
+
   end
+
 
   def new
     if current_user.profile

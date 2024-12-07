@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_13_030620) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_08_200919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_13_030620) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "profile_id", null: false
+    t.index ["profile_id"], name: "index_achievements_on_profile_id"
     t.index ["user_id"], name: "index_achievements_on_user_id"
   end
 
@@ -80,6 +82,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_13_030620) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "moods", force: :cascade do |t|
+    t.string "mood"
+    t.datetime "date"
+    t.bigint "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.index ["profile_id"], name: "index_moods_on_profile_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
@@ -111,6 +123,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_13_030620) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "achievements", "profiles"
   add_foreign_key "achievements", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
@@ -120,6 +133,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_13_030620) do
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "messages", "support_groups"
   add_foreign_key "messages", "users"
+  add_foreign_key "moods", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "support_groups", "users"
 end
